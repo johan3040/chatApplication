@@ -1,18 +1,8 @@
 
-const express = require('express');
-const app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const io = require('./index.js').io;
 
-app.use(express.static('public'));
+module.exports = function(socket){
 
-app.get('/', (req, res)=>{
-  res.sendFile(__dirname + '/public/index.html');
-  res.end();
-});
-
-io.on('connection', (socket)=>{
-    
     socket.emit('initData', socket.id);
 
     socket.on('set nickname', nickname=>{
@@ -88,8 +78,4 @@ io.on('connection', (socket)=>{
         console.log("Someone left");
     });
 
-});
-
-http.listen(8000, ()=>{
-  console.log('listening on *:8000');
-});
+}

@@ -8,6 +8,6 @@
         "socket.io": "^2.1.1"
     },
     "scripts":{
-        "server": "nodemon app.js"   
+        "server": "nodemon server/index.js"   
     }
 }
