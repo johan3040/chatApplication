@@ -40,6 +40,7 @@ class MySocket {
     initListeners(){
 
         this.socket.on('conn', (room, rooms)=>{
+            console.log(rooms);
             this.user.room = room;
             document.querySelector("#roomTitle").innerHTML = "Room: <br>" + room;
             this.parent.handleForeignMessage("You are connected to " + room, "broadcast");
