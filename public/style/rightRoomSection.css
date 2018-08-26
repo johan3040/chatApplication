@@ -1,0 +1,30 @@
+#rooms{
+    position: fixed;
+    right: 1em;
+    top: 0;
+    width: 100px;
+    
+}
+
+#rooms h3{
+    margin-top: 1em;
+    text-align: center;
+    font-weight: 300;
+}
+
+#rooms button{
+    width: 100%;
+    background: transparent;
+    font-size: 1em;
+    border: 3px solid black;
+    border-radius: 3px;
+    padding: 10px;
+    margin-top: 1em;
+    cursor: pointer;
+    transition: all 0.1s linear;
+}
+
+#rooms button:hover{
+    background: #000;
+    color: #FFF;
+}

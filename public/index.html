@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+<body>
+
+    <div id="splash">
+        <h2>Welcome!</h2>
+        <form action="">
+            <input id="inputUsername" type="text" placeholder="Username" />
+            <br />
+            <button id="splashBtn">Enter</button>
+        </form>
+    </div>
+
+    <div id="mainContent">
+        <div id="leftRoomSection">
+            <span id="roomTitle"></span>
+            <form id="connectionForm" action="">
+                <input id="connectionInput" />
+                <button id="connectionBtn">Connect</button>
+            </form>
+            <span id="online"></span>
+            <span id="onlineNr"></span>
+            <ul id="roomMembers"></ul>
+        </div>
+
+        <div id="msgArea">
+            <button id="disconnectBtn">Disconnect</button>
+            <ul id="messages"></ul>
+            <div id="usertype"><i>Someone is typing</i></div>
+            <form id="userMsg" action="">
+                <input id="m" autocomplete="off" /><button id="sendBtn">Send</button>
+            </form>
+        </div>
+
+        <div id="rooms">
+            <h3>Rooms</h3>
+            <button id="mainBtn">Main</button>
+            <button id="otherBtn">Other</button>
+        </div>
+    </div>
+
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/Main.js" type="module"></script>
+</body>
+</html>
