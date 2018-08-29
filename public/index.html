@@ -8,33 +8,37 @@
     <link rel="stylesheet" type="text/css" href="style/style.css">
 </head>
 <body>
-
+    <div id="loading"></div>
     <div id="splash">
         <h2>Welcome!</h2>
         <form action="">
             <input id="inputUsername" type="text" placeholder="Username" />
             <br />
-            <button id="splashBtn">Enter</button>
+            <button id="splashBtn"><span>Enter</span></button>
         </form>
     </div>
 
     <div id="mainContent">
         <div id="leftRoomSection">
-            <span id="roomTitle"></span>
+            <h3 id="roomHeader">Room</h3>
+            <p id="roomTitle"></p>
+            <p id="online"></p>
+            <span id="onlineNr"></span>
+            <ul id="roomMembers"></ul>
             <form id="connectionForm" action="">
+                <h4>New connection</h4>
                 <input id="connectionInput" />
                 <button id="connectionBtn">Connect</button>
             </form>
-            <span id="online"></span>
-            <span id="onlineNr"></span>
-            <ul id="roomMembers"></ul>
         </div>
 
         <div id="msgArea">
             <button id="disconnectBtn">Disconnect</button>
             <ul id="messages"></ul>
             <div id="usertype"><i>Someone is typing</i></div>
+            <div id="emojiContainer"></div>
             <form id="userMsg" action="">
+                <span id="emojiIcon">&#x1F603;</span>
                 <input id="m" autocomplete="off" /><button id="sendBtn">Send</button>
             </form>
         </div>

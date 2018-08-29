@@ -6,23 +6,22 @@
 #disconnectBtn{
     background: transparent;
     font-size: 1.2em;
-    border: 3px solid red;
+    border: 1px solid red;
     border-radius: 3px;
     padding: 10px;
-    margin-top: 1em;
-    cursor: pointer;
+    margin-top: 2em;
     transition: all 0.1s linear;
     position: fixed;
     left: 68%;
+    color: #FFF;
 }
 
 #disconnectBtn:hover{
     background: red;
-    color: white;
+    cursor: pointer;
 }
 
 #userMsg { 
-    background: #000; 
     padding: 3px; 
     position: fixed; 
     bottom: 0; 
@@ -34,11 +33,57 @@
     width: 90%; 
     margin-right: .5%; 
 }
-#userMsg button { 
-    width: 9%; 
-    background: rgb(130, 224, 255); 
-    border: none; padding: 10px; 
+
+#emojiIcon{
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 0.8em;
+    right: 27%;
 }
+
+#emojiBtn:hover{
+    cursor: pointer;
+}
+
+#emojiContainer{
+    height: 350px;
+    width: 280px;
+    position: fixed;
+    background: #FFF;
+    right: 26%;
+    bottom: 3em;
+    overflow: hidden;
+    overflow-y: scroll;
+    visibility: hidden;
+}
+
+.emoji{
+    display: inline-block;
+    padding: 5px;
+
+}
+
+.emoji:hover{
+    cursor: pointer;
+}
+
+#sendBtn { 
+    width: 9%; 
+    background: #d3a376; 
+    border: none; 
+    padding: 10px;
+    color: #FFF;
+    font-size: 1.2em; 
+}
+
+#sendBtn:hover{
+    cursor: pointer;
+}
+
+#userMsg:hover{
+    cursor: pointer;
+}
+
 #messages { 
     list-style-type: none; 
     margin: 0; 
@@ -50,35 +95,37 @@
 }
 #messages li { 
     padding: 1em 1em;
-    display: block;
-    border-radius: 5px;
-    width: 50%;
+    width: fit-content;
+    border-radius: 3px;
     margin-top: 1em;
-    box-shadow: 5px 6px 10px 0px rgba(0,0,0, 0.1)
+    color: #FFF;
+    border: 1px solid;
+}
+
+#messages li p:nth-child(2){
+    margin-top: 0.5em;
 }
 
 #messages .personal{
-    background: linear-gradient(to right,#20c3ff, #1bb8f3);
-    margin-left: 50%;
+    border-color: #ffd9e7;
+    /*background: linear-gradient(to right,#e0eff5, #d3e8f1);*/
 }
 
 #messages .foreign{
-    background: linear-gradient(to right, #edf3f3, #e2e7e7);
+    border-color: #e0eff5;
 }
 
 #messages .broadcast{
-    background-image: linear-gradient(to right, #11ff33, #0df12d);
+    border-color: #11ff33;
     width: 50%;
-    margin: 0 auto;
-    text-align: center;
+    margin: auto;
     margin-top: 1em;
 }
 
 #messages .disconnected{
-    background: linear-gradient(to right,#f54d4d, #ec4a4a);
+    border-color: #f54d4d;
     width: 50%;
-    margin: 0 auto;
-    text-align: center;
+    margin: auto;
     margin-top: 1em;
 }
 

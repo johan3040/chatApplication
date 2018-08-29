@@ -3,6 +3,7 @@
     right: 1em;
     top: 0;
     width: 100px;
+    color: #FFF;
     
 }
 
@@ -16,15 +17,16 @@
     width: 100%;
     background: transparent;
     font-size: 1em;
-    border: 3px solid black;
+    border: 3px solid #FFF;
     border-radius: 3px;
     padding: 10px;
     margin-top: 1em;
     cursor: pointer;
     transition: all 0.1s linear;
+    color: #FFF;
 }
 
 #rooms button:hover{
-    background: #000;
-    color: #FFF;
+    background: #FFF;
+    color: #000;
 }
