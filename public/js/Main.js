@@ -24,7 +24,7 @@ class Main{
             this.name = inputField.value
             if(this.name !== ""){
                 document.getElementById("splash").style.display = "none";
-                document.getElementById("loading").style.display = "block";
+                //document.getElementById("loading").style.display = "block";
                 this.createEmojis();
             }else{
                 inputBtn.setAttribute("class", "shake");
@@ -49,7 +49,6 @@ class Main{
     }
 
     cb(){
-        document.getElementById("loading").style.display = "none";
         document.getElementById("mainContent").style.display = "block";
         this.initChat(this.name);
         
@@ -88,6 +87,7 @@ class Main{
 
         this.userInputMessage.addEventListener("input", (e)=>{
             e.target.value !== "" ? this.socket.handleEmit("typing", this.user.name, this.user.room) : this.socket.handleEmit('lost focus', this.user.room, this.user.room);
+            this.emojiContainer.replaceStringToEmoji(e.target.value, this.userInputMessage);
         });
 
         this.userInputMessage.addEventListener("blur", (e)=>{
@@ -127,7 +127,6 @@ class Main{
     }
 
     handleForeignMessage(user, msg, date){
-        console.log(date);
         let message = new ForeignMessage(user, msg, this.messageContainer, date);
         this.scrollDown();
     }
