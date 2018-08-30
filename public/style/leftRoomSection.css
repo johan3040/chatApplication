@@ -1,10 +1,10 @@
 #leftRoomSection{
     padding-left: 1em;
     max-width: 30%;
-    position: relative;
+    position: fixed;
     float: left;
     left: 0;
-    top: 0;
+    top: 19%;
     color: white;
     padding-top: 1em;
 }
@@ -16,7 +16,8 @@
 
 #connectionForm{
     position: fixed;
-    bottom: 0;
+    top: 0;
+    margin-top: 1em;
     width: inherit;
 }
 

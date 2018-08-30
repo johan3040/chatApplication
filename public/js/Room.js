@@ -4,4 +4,4 @@ class Room{
     }
 }
 
-export {Room};
+export { Room };

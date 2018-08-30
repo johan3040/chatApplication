@@ -94,6 +94,13 @@ class Main{
             this.socket.handleEmit('lost focus', this.user.name, this.user.room);
         });
 
+        this.userInputMessage.addEventListener("click", (e)=>{
+            
+            if(document.getElementById("emojiContainer").style.visibility === "visible"){
+                document.getElementById("emojiContainer").style.visibility = "hidden";
+            }
+        })
+
         this.disconnectionBtn.addEventListener("click", (e)=>{
             e.preventDefault();
             this.clearMessages();

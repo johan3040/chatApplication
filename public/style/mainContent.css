@@ -49,7 +49,8 @@
     height: 350px;
     width: 280px;
     position: fixed;
-    background: #FFF;
+    background: rgba(0,0,0, 0.1);
+    border-radius: 3px;
     right: 26%;
     bottom: 3em;
     overflow: hidden;
