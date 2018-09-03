@@ -29,6 +29,7 @@ module.exports = function(socket){
      */
     socket.join(socket.id,(err)=>{
         socket.emit('conn', socket.id, socket.rooms);
+        socket.emit('add new room', socket.id);
         let tableName = createTableName(socket.id);
         MySqlHandler.createTable(createTableName(tableName));
         croom = socket.id;
@@ -41,15 +42,24 @@ module.exports = function(socket){
      * @param string - name
      */
     socket.on('joinRoom', (selectedRoom, prevRoom, name)=>{
+
+        let clientRooms = Object.keys(socket.rooms);
+        if(clientRooms.indexOf(selectedRoom) === -1){
+            socket.emit('add new room', selectedRoom);
+        }
+
+
         /**
          * Emit to previous room that socket has disconnected
          */
-        socket.broadcast.to(prevRoom).emit('user disconnected', socket.id, socket.nickname);
-        /**
+        
+         //socket.broadcast.to(prevRoom).emit('user disconnected', socket.id, socket.nickname);
+        
+         /**
          * Leave room
          * Send updated number of connected clients to old room
          */
-        socket.leave(prevRoom,(err)=>{
+        /*socket.leave(prevRoom,(err)=>{
             let users = io.of('/').in(prevRoom).clients((err, clients)=>{
                 if(clients.length > 0){
                     socket.broadcast.to(prevRoom).emit('update users', clients);
@@ -58,14 +68,14 @@ module.exports = function(socket){
                     MySqlHandler.dropTable(createTableName(tableName));
                 }
             });
-        });
+        });*/
 
         /**
          * Join new room
          * @param string
          */
         socket.join(selectedRoom, (err)=>{
-
+            
             croom = selectedRoom;
 
             /**
@@ -97,7 +107,7 @@ module.exports = function(socket){
                 if(err) throw err;
                 //Send to all in room including sender
                 io.in(selectedRoom).emit('update users', clients);
-                if(clients.length <=1){
+                if(clients.length <=1 && clientRooms.indexOf(selectedRoom) === -1){
                     let tableName = createTableName(selectedRoom);
                     MySqlHandler.createTable(createTableName(tableName));
                 } 
@@ -128,40 +138,52 @@ module.exports = function(socket){
     socket.on('lost focus', (user, room)=>{
         socket.broadcast.to(room).emit('stoppedTyping');
     });
-    /*
-    socket.on("disconnect", ()=>{
-        console.log("Disconnected from: " + croom);
 
-        let users = io.of('/').in(croom).clients((err, clients)=>{
-            if(clients.length > 0){
-                socket.broadcast.to(prevRoom).emit('update users', clients);
-            }else{
-                let tableName = createTableName(croom);
-                MySqlHandler.dropTable(tableName);
-            }
-        });
-
+    socket.on('leftRoom', prevRoom=>{
+        leaveRoom(prevRoom);
     });
-    */
+    
+    /**
+     * Fired when the client is going to be disconnected (but hasn’t left its rooms yet).
+     */
+    socket.on('disconnecting', (reason)=>{
+        let allRooms = Object.keys(socket.rooms);
+        console.log("All rooms: " + allRooms.length);
+        for(let i = 0; i<allRooms.length; i++){
+            leaveRoom(allRooms[i]);
+        }
+    })
+
     /**
      * Event triggers when socket disconnects manually
      */
-    socket.on("disconnect", ()=>{
+    socket.on('disconnect', ()=>{
+        
+        console.log("DISCONNECTED FROM " + croom);
         socket.broadcast.to(croom).emit('user disconnected', socket.id, socket.nickname);
         socket.broadcast.to(croom).emit('stoppedTyping');
+        
         /**
-         * Update number of connected clients left in disconnected room
+         * Update number of connected clients left in all previously connected rooms
          */
         let users = io.of('/').in(croom).clients((err, clients)=>{
             if(clients.length > 0){
                 socket.broadcast.to(croom).emit('update users', clients);
-            }else{
-                let tableName = createTableName(croom);
-                MySqlHandler.dropTable(createTableName(tableName));
             }
         });
             
     });
+
+    function leaveRoom(room){
+        let users = io.of('/').in(room).clients((err, clients)=>{
+            if(clients.length <= 1){
+                MySqlHandler.dropTable(createTableName(room));
+            }else{
+                socket.broadcast.to(room).emit('user disconnected', socket.id, socket.nickname);
+                socket.broadcast.to(room).emit('update users', clients);
+            }
+        });
+    }
 
 }
 
@@ -182,5 +204,4 @@ function createTableName(name){
     tableName = tableName.replace(/-/g, "b");
 
     return tableName;
-
 }

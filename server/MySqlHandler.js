@@ -1,5 +1,8 @@
 const mysql = require('mysql');
 
+
+// create database chat CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 class MySqlHandler{
     constructor(){
 

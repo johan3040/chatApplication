@@ -1,5 +1,6 @@
 
 import { Message }  from './Message.js';
+import { Room } from './Room.js';
 
 
 class MySocket {
@@ -10,7 +11,7 @@ class MySocket {
             this.user.defaultRoom = id;
             this.socket.emit('set nickname', this.user.name);
         });
-
+        this.handleRoomButtonClick = this.handleRoomButtonClick.bind(this);
         this.user = user;
         this.parent = parent;
         this.initListeners();
@@ -18,20 +19,19 @@ class MySocket {
 
     handleMessage(user, msg, room){
         let d = new Date().toLocaleTimeString();
-        console.log(d);
         this.socket.emit('chat message', {user: user, message: msg, room:room, date: d});
         this.socket.emit('lost focus', room);
     }
 
     handleConnection(newRoom, prevRoom){
-        this.socket.emit('disconnected', prevRoom);
         this.user.room = newRoom;
         this.socket.emit('joinRoom', newRoom, prevRoom, this.user.name);
     }
 
     handleDisconnection(prevRoom, newRoom){
         this.parent.removeList();
-        this.socket.emit('joinRoom', newRoom, prevRoom);
+        this.socket.emit('joinRoom', newRoom, prevRoom, this.user.name);
+        this.socket.emit('leftRoom', prevRoom);
         document.querySelector("#roomTitle").innerHTML = newRoom;
     }
 
@@ -42,7 +42,6 @@ class MySocket {
     initListeners(){
 
         this.socket.on('conn', (room, rooms)=>{
-            console.log(Object.keys(rooms)[0]);
             this.user.room = room;
             document.querySelector("#roomTitle").innerHTML = room;
             this.parent.handleSystemMessage("You are connected to " + room, "broadcast");
@@ -61,7 +60,6 @@ class MySocket {
         });
 
         this.socket.on('chat message', (user, msg, date)=>{
-            console.log(date);
             let message = this.parent.handleForeignMessage(user, msg, date);
         });
 
@@ -80,13 +78,24 @@ class MySocket {
         });
 
         this.socket.on('fetch messages', res=>{
-            console.log(res);
             for(let i = 0; i<res.length; i++){
                 let msg = this.parent.handleForeignMessage(res[i].user, res[i].message, res[i].timestamp);
             }
-           // this.parent.handleForeignMessage();
         });
 
+        this.socket.on('add new room', room=>{
+            let r = new Room(room, this.handleRoomButtonClick);
+        });
+
+    }
+
+    handleRoomButtonClick(roomName){
+        if(roomName !== this.user.room){
+            console.log(this.socket);
+            this.parent.clearMessages();
+            this.parent.removeList();
+            this.socket.emit('joinRoom', roomName, this.user.room, this.user.name);
+        }
     }
 
 }

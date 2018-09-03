@@ -105,6 +105,8 @@ class Main{
             e.preventDefault();
             this.clearMessages();
             this.socket.handleDisconnection(this.user.room, this.user.defaultRoom);
+            let btn = document.getElementById("roomIdentifier_" + this.user.room);
+            btn.parentNode.removeChild(btn);
         });
 
         this.emojiAnchor.addEventListener("click", this.showEmojis);
